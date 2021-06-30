@@ -39,10 +39,20 @@ class Journal:
         return r.content.decode()
 
     def write_entry(self, entry=None):
+        ###post the journal entry to joplin api###
         startnote = json.loads(self.get_journal())
+        # There is probably a better way to do this, I don't want empty lines
+        # at the first entry, but every other entry should start with newlines
+        # to separate it from the other entries.  This only matters for the
+        # first entry, seems stupid to check it every single time
+        if not startnote["body"] == "":
+            prefix = "\n\n"
+        else:
+            prefix = ""
         postdata = {
             "body": startnote["body"]
-            + f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {entry}\n\n"
+            + prefix
+            + f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {entry}"
         }
         r = requests.put(
             f"{self.joplin_url}/notes/{self.note_id}?token={self.joplin_token}",
@@ -53,8 +63,7 @@ class Journal:
 def main():
     # instantiate a journal
     journal = Journal(config["base_url"], config["token"], config["note_id"])
-    # set the URL to what we have in the config
-    # Test the URL
+    # Test the URL and write what was given in argv if we get an OK
     if journal.ping():
         journal.write_entry(" ".join(sys.argv[1:]))
     else:
