@@ -73,12 +73,8 @@ class Journal:
 
 @click.command()
 @click.option("--dump", is_flag=True, help="Dump the contents of the journal")
-@click.option(
-    "--quiet", "-q", is_flag=True, help="Do not emit the 'entry added' output"
-)
-@click.option(
-    "--edit", "-e", is_flag=True, help="Edit an entry with your default editor"
-)
+@click.option("--quiet", is_flag=True, help="Do not emit the 'entry added' output")
+@click.option("--edit", is_flag=True, help="Edit an entry with your default editor")
 @click.argument("entry", nargs=-1)
 def main(dump, quiet, entry, edit):
     # instantiate a journal
@@ -88,7 +84,7 @@ def main(dump, quiet, entry, edit):
         print(journal.dump_journal())
         sys.exit()
     if edit and journal.ping():
-        MARKER = "###### Everything below is ignored\n"
+        MARKER = "###### Everything below is ignored ######\n"
         entry = click.edit("\n" + MARKER)
         if entry is not None:
             entry_posted = journal.write_entry(entry.split(MARKER, 1)[0].rstrip("\n"))
@@ -106,12 +102,12 @@ def main(dump, quiet, entry, edit):
         # the wrapper
         # Since I want the whole line to be the args, handle the fact that
         # specifying --quiet gives us one more argument to skip
-        # TODO: fix this, it looks stupid
-        if quiet:
-            start = 2
-        else:
-            start = 1
-        entry_posted = journal.write_entry(" ".join(sys.argv[start:]))
+        clean_args = []
+        # Clean up the args to make sure we don't get the program name, or any --options
+        for arg in sys.argv[1:]:
+            if not arg.startswith("--"):
+                clean_args.append(arg)
+        entry_posted = journal.write_entry(" ".join(clean_args))
     else:
         print(f"Error: did not get successful response from {journal.joplin_url}")
     if entry_posted and not quiet:
