@@ -88,6 +88,8 @@ def main(dump, quiet, entry, edit):
         entry = click.edit("\n" + MARKER)
         if entry is not None:
             entry_posted = journal.write_entry(entry.split(MARKER, 1)[0].rstrip("\n"))
+        else:
+            entry_posted = False
     elif journal.ping():
         #        if select.select(
         #            [
@@ -109,11 +111,17 @@ def main(dump, quiet, entry, edit):
                 clean_args.append(arg)
         entry_posted = journal.write_entry(" ".join(clean_args))
     else:
-        print(f"Error: did not get successful response from {journal.joplin_url}")
+        click.echo(
+            click.style(
+                f"Error: did not get successful response from {journal.joplin_url}",
+                fg="red",
+            )
+        )
+        sys.exit(99)
     if entry_posted and not quiet:
-        print("[Entry added]")
+        click.echo(click.style("[Entry added]", fg="green"))
     elif not entry_posted:
-        print("Error adding entry")
+        click.echo(click.style("- No entry added -", fg="yellow"))
 
 
 if __name__ == "__main__":
