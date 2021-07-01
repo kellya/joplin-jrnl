@@ -24,13 +24,13 @@ make it less convoluted, but hey...this is the develop branch right now.
 
 # Roadmap/Hopes and Dreams
 - [x] Add entries to a joplin note
-- [ ] Optionally use editor to make bigger edits (or to deal with annoying
+- [x] Optionally use editor to make bigger edits (or to deal with annoying
     characters in entry that shell wants to expand to something
 - [ ] Search for entries based on content
 - [ ] Search for entries based on tags
-- [ ] More intelligent handling of options
+- [x] More intelligent handling of options
     - [ ] Create a note if you don't specify one
     - [ ] Utilize options to override settings
-- [ ] Print out entries to CLI
+- [x] Print out entries to CLI
 - [ ] Basically work like jrnl, but with joplin :)
 - [ ] Figure out asyncio stuff and use that instead of requests
