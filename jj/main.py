@@ -4,6 +4,7 @@ import requests
 import json
 import sys
 from datetime import datetime
+import select
 
 with open("/home/kellya/.config/jj/conf.yaml") as file:
     config = yaml.safe_load(file)
@@ -65,7 +66,18 @@ def main():
     journal = Journal(config["base_url"], config["token"], config["note_id"])
     # Test the URL and write what was given in argv if we get an OK
     if journal.ping():
+        #        if select.select(
+        #            [
+        #                sys.stdin,
+        #            ],
+        #            [],
+        #            [],
+        #            0.0,
+        #        )[0]:
+        #            journal.write_entry(sys.stdin.readlines()[0])
+        #        else:
         journal.write_entry(" ".join(sys.argv[1:]))
+
     else:
         print(f"Error: did not get successful response from {journal.joplin_url}")
 
