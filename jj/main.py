@@ -4,7 +4,10 @@ import requests
 import json
 import sys
 from datetime import datetime
-import select
+
+# import select
+import click
+
 
 with open("/home/kellya/.config/jj/conf.yaml") as file:
     config = yaml.safe_load(file)
@@ -60,11 +63,18 @@ class Journal:
             data=json.dumps(postdata),
         )
 
+    def dump_journal(self):
+        return json.loads(self.get_journal())["body"]
 
-def main():
+
+@click.command()
+@click.option("--dump", is_flag=True, help="Dump the contents of the journal")
+def main(dump):
     # instantiate a journal
     journal = Journal(config["base_url"], config["token"], config["note_id"])
     # Test the URL and write what was given in argv if we get an OK
+    if dump and journal.ping():
+        print(journal.dump_journal())
     if journal.ping():
         #        if select.select(
         #            [
