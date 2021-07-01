@@ -69,7 +69,8 @@ class Journal:
 
 @click.command()
 @click.option("--dump", is_flag=True, help="Dump the contents of the journal")
-def main(dump):
+@click.argument("entry", nargs=-1)
+def main(dump, entry):
     # instantiate a journal
     journal = Journal(config["base_url"], config["token"], config["note_id"])
     # Test the URL and write what was given in argv if we get an OK
