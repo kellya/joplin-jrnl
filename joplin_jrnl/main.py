@@ -6,14 +6,10 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-# import select
+import select
 import click
 
-__version__ = "0.2.0"
-
-home = str(Path.home())
-with open(f"{home}/.config/joplin-jrnl/conf.yaml") as file:
-    config = yaml.safe_load(file)
+__version__ = "0.3.2"
 
 
 class Journal:
@@ -79,8 +75,20 @@ class Journal:
 @click.option("--dump", is_flag=True, help="Dump the contents of the journal")
 @click.option("--quiet", is_flag=True, help="Do not emit the 'entry added' output")
 @click.option("--edit", is_flag=True, help="Edit an entry with your default editor")
+@click.option(
+    "--config",
+    type=click.Path(),
+    help="Specify an alternate configuration file location",
+)
 @click.argument("entry", nargs=-1)
-def main(dump, quiet, entry, edit):
+def main(dump, quiet, edit, config, entry):
+    if not config:
+        home = str(Path.home())
+        config = f"{home}/.config/joplin-jrnl/conf.yaml"
+    with open(config) as file:
+        # I am about to use config as the data contents, wiping out the
+        # commandline option values for config.
+        config = yaml.safe_load(file)
     # instantiate a journal
     journal = Journal(config["base_url"], config["token"], config["note_id"])
     # Test the URL and write what was given in argv if we get an OK
@@ -95,17 +103,20 @@ def main(dump, quiet, entry, edit):
         else:
             entry_posted = False
     elif journal.ping():
-        #        if select.select(
-        #            [
-        #                sys.stdin,
-        #            ],
-        #            [],
-        #            [],
-        #            0.0,
-        #        )[0]:
-        #            journal.write_entry(sys.stdin.readlines()[0])
-        #        else:
-        # the wrapper
+        if select.select(
+            [
+                sys.stdin,
+            ],
+            [],
+            [],
+            0.0,
+        )[0]:
+            entry_posted = journal.write_entry(sys.stdin.readlines()[0].rstrip("\n"))
+            if entry_posted and entry_posted != "":
+                click.echo(click.style("[Entry added]", fg="green"))
+                sys.exit(0)
+            else:
+                click.echo(click.style("STDIN data not posted to journal"), fg="red")
         # Since I want the whole line to be the args, handle the fact that
         # specifying --quiet gives us one more argument to skip
         clean_args = []
