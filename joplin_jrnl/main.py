@@ -9,7 +9,7 @@ from pathlib import Path
 # import select
 import click
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 home = str(Path.home())
 with open(f"{home}/.config/joplin-jrnl/conf.yaml") as file:
