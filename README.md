@@ -1,7 +1,7 @@
 # Joplin-jrnl
 This is a CLI to append notes to a notebook as a running, append-only journaling system.  The general inspiration was the [jrnl](https://jrnl.sh/en/stable/) command line tool.  I like the general simplicity of how it works, but wanted the data to be more accessible through Joplin, which I use for general notetaking.
 
-# How the heck to I use this?
+# How the heck do I use this?
 joplin-jrnl has been published to PyPi, so you should be able to get this
 running by simply executing `pip install joplin-jrnl`.  You may then run the
 `jj` command to see how to further interact with it.
