@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "joplin-jrnl"
-version = "0.1.0"
+version = "0.2.0"
 description = "An append-only journaling tool using Joplin to store the entries"
 authors = ["Alex Kelly <kellya@arachnitech.com>"]
 license = "MIT"
