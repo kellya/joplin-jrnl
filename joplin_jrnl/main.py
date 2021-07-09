@@ -109,7 +109,11 @@ def main(dump, quiet, entry, edit):
         for arg in sys.argv[1:]:
             if not arg.startswith("--"):
                 clean_args.append(arg)
-        entry_posted = journal.write_entry(" ".join(clean_args))
+        if clean_args:
+            entry_posted = journal.write_entry(" ".join(clean_args))
+        else:
+            click.echo(click.style("- No entry added -", fg="yellow"))
+            sys.exit()
     else:
         click.echo(
             click.style(
