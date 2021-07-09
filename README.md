@@ -26,6 +26,9 @@ To do this:
     2. `cp conf.yaml ~/.config/joplin-jrnl/`
     3. Edit conf.yaml to reflect your values
 
+# demo
+[![Demonstration](https://asciinema.org/a/WQp9Udq9vq3of9zSToqfByJxf.svg)](https://asciinema.org/a/WQp9Udq9vq3of9zSToqfByJxf)
+
 # Roadmap/Hopes and Dreams
 - [x] Add entries to a joplin note
 - [x] Optionally use editor to make bigger edits (or to deal with annoying
