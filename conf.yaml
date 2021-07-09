@@ -1,0 +1,3 @@
+base_url: http://localhost:41184
+token: <your token from joplin web clipper>
+note_id: <unique noteID that will be used to append all content>

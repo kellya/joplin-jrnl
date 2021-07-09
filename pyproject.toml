@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "joplin-jrnl"
+version = "0.1.0"
+description = "An append-only journaling tool using Joplin to store the entries"
+authors = ["Alex Kelly <kellya@arachnitech.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [
+    { include="joplin_jrnl", from="." },
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+click = "^8.0.1"
+PyYAML = "^5.4.1"
+requests = "^2.25.1"
+
+[tool.poetry.dev-dependencies]
+ipython = "^7.25.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+jj = 'joplin_jrnl.main:main'
