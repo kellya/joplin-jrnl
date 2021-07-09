@@ -4,12 +4,15 @@ import requests
 import json
 import sys
 from datetime import datetime
+from pathlib import Path
 
 # import select
 import click
 
+__version__ = "0.1.0"
 
-with open("/home/kellya/.config/jj/conf.yaml") as file:
+home = str(Path.home())
+with open(f"{home}/.config/joplin-jrnl/conf.yaml") as file:
     config = yaml.safe_load(file)
 
 
@@ -72,6 +75,7 @@ class Journal:
 
 
 @click.command()
+@click.version_option(__version__, prog_name="joplin-jrnl")
 @click.option("--dump", is_flag=True, help="Dump the contents of the journal")
 @click.option("--quiet", is_flag=True, help="Do not emit the 'entry added' output")
 @click.option("--edit", is_flag=True, help="Edit an entry with your default editor")

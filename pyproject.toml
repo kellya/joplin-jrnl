@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "An append-only journaling tool using Joplin to store the entries"
 authors = ["Alex Kelly <kellya@arachnitech.com>"]
 license = "MIT"
+readme = "README.md"
 packages = [
     { include="joplin_jrnl", from="." },
 ]
