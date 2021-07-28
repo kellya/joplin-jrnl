@@ -9,12 +9,16 @@ homepage = "https://github.com/kellya/joplin-jrnl"
 packages = [
     { include="joplin_jrnl", from="." },
 ]
+include = [
+ "conf.yaml"
+ ]
 
 [tool.poetry.dependencies]
 python = "^3.9"
 click = "^8.0.1"
 PyYAML = "^5.4.1"
 requests = "^2.25.1"
+aiohttp = "^3.7.4"
 
 [tool.poetry.dev-dependencies]
 ipython = "^7.25.0"

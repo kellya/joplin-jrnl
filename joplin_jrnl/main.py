@@ -74,7 +74,11 @@ class Journal:
 @click.version_option(__version__, prog_name="joplin-jrnl")
 @click.option("--dump", is_flag=True, help="Dump the contents of the journal")
 @click.option("--quiet", is_flag=True, help="Do not emit the 'entry added' output")
-@click.option("--edit", is_flag=True, help="Edit an entry with your default editor")
+@click.option(
+    "--edit",
+    is_flag=True,
+    help="Create a new entry from your default editor rather than from the command line",
+)
 @click.option(
     "--config",
     type=click.Path(),
@@ -82,6 +86,7 @@ class Journal:
 )
 @click.argument("entry", nargs=-1)
 def main(dump, quiet, edit, config, entry):
+    """A utility to append journal entries to a note defined in Joplin"""
     if not config:
         home = str(Path.home())
         config = f"{home}/.config/joplin-jrnl/conf.yaml"
